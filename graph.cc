@@ -8,6 +8,73 @@
 #include "TPad.h"
 #include "TGraphErrors.h"
 #include "TMultiGraph.h"
+
+#define LEN(x) (sizeof(x)) / (sizeof((x)[0]))
+
+class mgraph
+{	
+private:
+	double xmin, xmax, ymin, ymax;
+	std::vector<TGraphErrors> vecgraph;
+	TLegend legend = TLegend(0.6, 0.6, 0.9, 0.9);
+	std::unique_ptr<TCanvas> canv;
+public:
+
+	mgraph(double minx, double maxx, double miny, double maxy)
+	{
+		xmin = minx;
+		xmax = maxx;
+		ymax = maxy;
+		ymin = miny;
+		canv = std::unique_ptr<TCanvas>(new TCanvas("c", "a", 900, 1500));
+	};
+
+	void fast_divide(int ncolumns, int nrows)
+	{
+		canv->Divide(ncolumns);
+		for (int i = 1; i <= ncolumns; i++)
+		{
+			canv->cd(i);
+			gPad->Divide(nrows);
+		}
+	}
+
+	void add_graph(double *x, double *y, double *x_err, double *y_err, std::string legend_entry, Color_t color, Style_t style){
+		vecgraph.push_back(TGraphErrors(LEN(x),x,y, x_err, y_err));
+		vecgraph.back().SetMarkerColor(color);
+		vecgraph.back().SetMarkerStyle(style);
+		legend.AddEntry(&vecgraph.back(), legend_entry.c_str(), "P");
+	}
+	void add_graph(std::string file_name, std::string legend_entry, Color_t color, Style_t style){
+		vecgraph.push_back(TGraphErrors(file_name.c_str(), "%lg %lg %lg"));
+		vecgraph.back().SetMarkerColor(color);
+		vecgraph.back().SetMarkerStyle(style);
+		legend.AddEntry(&vecgraph.back(), legend_entry.c_str(), "P");
+	}
+	
+
+	void draw(std::string title_text, int icanv, int igpad, std::string x_label, std::string y_label){
+		canv->cd(icanv);
+		gPad->cd(igpad);
+		TH1F* hist = gPad->DrawFrame(xmin, ymin, xmax, ymax);
+		hist->GetXaxis()->SetTitle(x_label.c_str());
+		hist->GetYaxis()->SetTitle(y_label.c_str());
+
+
+		for (TGraphErrors gr: vecgraph){
+			gr.Draw("P");
+		}
+
+		TLatex text = TLatex(0.1, 0.12, title_text.c_str());
+		//text.SetTextSize(0.5);
+		text.Draw();
+
+		legend.Draw();
+		vecgraph.clear();
+		legend.Clear();
+	}
+};
+
 int graph () {
 
 	// Compass data
@@ -30,17 +97,46 @@ int graph () {
 	double pTpimin[9] = {-0.0056, -0.0007, -0.011, 0.0142, 0.0034, 0.0136, 0.0368, 0.0143, 0.1183};
 	double epTpimin[9] = {0.0123, 0.0102, 0.0099, 0.0107, 0.0122, 0.0171, 0.0185, 0.0433};
 
-	double xKplus[9] = {};
-	double zKplus[8] = {};
-	double pTKplus[9] = {};
+	double xKplus[9] = {0.0194,  -0.0031, -0.0027, 0.0198, -0.0166, -0.0287, -0.0245, -0.1305, -0.0564};
+	double exKplus[9] = {0.0497, 0.025, 0.0211, 0.0207, 0.0244, 0.0284, 0.0357, 0.0514, 0.0846};
+	double zKplus[8] = {-0.0116, -0.0142, 0.0039, 0.0002, -0.0134, 0.0013, -0.009, -0.0546};
+	double ezKplus[8] = {0.0266, 0.026, 0.0266, 0.0282, 0.0219, 0.0232, 0.0336, 0.0519};
+	double pTKplus[9] = {-0.1139, 0.031, 0.0026, -0.0232, -0.0034, 0.0262, -0.0322, 0.0219, -0.0416};
+	double epTKplus[9] = {0.0306, 0.0262, 0.0251, 0.0259, 0.0276, 0.0255, 0.0317, 0.0314, 0.0622};
 
-	
+	double xKmin[9] = {0.0557, -0.0229, 0.013, 0.0265, 0.0181, -0.0406, -0.079, -0.1907, 0.0149};
+	double exKmin[9] = {0.0541, 0.0286, 0.0257, 0.026, 0.0317, 0.0394, 0.0518, 0.0822, 0.1516};
+	double zKmin[8] = {-0.0066, -0.0331, 0.0325, 0.0267, -0.0462, 0.0197, 0.0751, 0.0809};
+	double ezKmin[8] = {0.0305, 0.0305, 0.0315, 0.0354, 0.0283, 0.0312, 0.0515, 0.0897};
+	double pTKmin[9] = {-0.0153, -0.0486, 0.0408, -0.0225, -0.0109, 0.0098, 0.0023, 0.0765, -0.0747};
+	double epTKmin[9] = {0.039, 0.0328, 0.0324, 0.0328, 0.035, 0.0322, 0.0402, 0.0392, 0.0756};
+
+
+
+
 
     gStyle->SetOptLogx();
+	mgraph multi_canv = mgraph(0.05, -0.2, 1., 0.15);
+
+	multi_canv.fast_divide(3, 5);
+
+	multi_canv.add_graph(x, xpiplus, (double *) nullptr, expiplus, "comp ass", kRed-3, 55);
+	multi_canv.add_graph("positron_collins_Kminus_27.5_1", "comp ass", kAzure-3, 59);
+
+	multi_canv.draw("#pi^{+}", 1, 1, "p_{T}", "CUM");
+
+	multi_canv.add_graph(x, xpiplus, (double *) nullptr, expiplus, "comp ass", kRed-3, 55);
+	multi_canv.add_graph("positron_collins_Kminus_27.5_1", "comp ass", kAzure-3, 59);
+
+	multi_canv.draw("#pi^{+}", 2, 1, "p_{T}", "CUM");
+	
+	
+
     TCanvas *c1 = new TCanvas("canv", "Asymmetry", 800, 800);
 
 	// c->Divide(2,2, 0.05, 0.05, 0);
 
+	mgraph piplus = mgraph("");
 
 	TMultiGraph* mgpiplus = new TMultiGraph();
 	mgpiplus->SetTitle("#pi^{-} Collins asymmetry; x;A_{Col}");
@@ -53,9 +149,10 @@ int graph () {
 	grpiplus->SetMarkerColor(4);
 
 
-	TGraphErrors* grhpiplus = new TGraphErrors();
+	TGraphErrors* grhpiplus = new TGraphErrors(9, x, xpiplus, 0, expiplus);
 	grhpiplus->SetMinimum(-0.2);
 	grhpiplus->SetMaximum(0.2);
+
     
 	TCanvas *c2 = new TCanvas("canv", "Asymmetry", 800, 800);
 	TGraphErrors* gr2 = new TGraphErrors("positron_collins_Kminus_27.5_1", "%lg %lg %lg");
