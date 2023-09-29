@@ -11,10 +11,11 @@ int main(int argc, char* argv[]) {
   fhooks->plugInto(pythia);
 
   std::string file_name;
-  std::ofstream out(file_name, std::ios::out);
   
   file_name.append("Collins_");
   file_name.append(argv[1]);
+
+  std::ofstream out(file_name, std::ios::out);
 
   // Beam energies in GeV, minimal Q2, number of events to generate.
   ParticleData& pdt = pythia.particleData;
@@ -23,7 +24,7 @@ int main(int argc, char* argv[]) {
   double mLepton  = pdt.m0(13);
   double eLepton	  = sqrt(pow(pLepton,2) + pow(mLepton,2));
   double Q2min	  = 1.0;
-  int    nEvent	  = 1e7;
+  int    nEvent	  = 1e6;
   int pid = std::stoi(argv[1]);
   // double x = 0.0;
 
@@ -246,7 +247,7 @@ int main(int argc, char* argv[]) {
     STxb[j] /= nxb[j];
     //cout << Col[j] << endl;
        if (out.is_open()){
-           out << xexp[j] << " " << Col[j]/(DNNxb[j]*STxb[j]) << " " <<       sqrt((Colerr[j]-pow(Col[j],2))/nxb[j])/(DNNxb[j]*STxb[j]) << endl;
+           out << xexp[j] << " " << Col[j]/(DNNxb[j]*STxb[j]) << " " <<sqrt((Colerr[j]-pow(Col[j],2))/nxb[j])/(DNNxb[j]*STxb[j]) << endl;
        }
    }
 

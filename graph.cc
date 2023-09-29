@@ -6,45 +6,58 @@
 #include "TGraph.h"
 #include <vector>
 #include "TPad.h"
+#include "TGraphErrors.h"
+#include "TMultiGraph.h"
 int graph () {
 
+	// Compass data
 
-	double xb,col, error;
-	std::vector< double > vxb;
-	std::vector< double > vcol;
-	std::vector< double > verror;
+	double x[9] = {0.006452, 0.01054, 0.01628, 0.02533, 0.0398, 0.06279, 0.1008, 0.1608, 0.2847};
+	double z[8] = {0.2237, 0.2737, 0.3237, 0.3737, 0.4448, 0.5646, 0.7164, 0.8787};
+	double pT[9] = {0.1547, 0.2519, 0.3496, 0.4482, 0.5475, 0.6681, 0.817, 1.042, 1.549};
+
+	double xpiplus[9] = {-0.0647, -0.0039, 0.0078, -0.0007, 0.0131, 0.0085, 0.0018, 0.0214, -0.0085};
+	double expiplus[9] = {0.0252, 0.0124, 0.0093, 0.0079, 0.0088, 0.0111, 0.0146, 0.0218, 0.0376};
+	double zpiplus[8] = {0.0013, -0.0055, 0.0011, 0.0134, 0.0089, 0.0106, -0.0048, -0.0107};
+	double ezpiplus[8] = {0.0078, 0.009, 0.0106, 0.0122, 0.0109, 0.0124, 0.0179, 0.0243};
+	double pTpiplus[9] = {0.0214, 0.0, -0.005, -0.0028, -0.0044, -0.0044, 0.0245, 0.0256, -0.0456};
+	double epTpiplus[9] = {0.0114, 0.0095, 0.0092, 0.0099, 0.0114, 0.0114, 0.0157, 0.0173, 0.0401};
+
+	double xpimin[9] = {0.0261, 0.013, 0.0192, -0.0015, -0.012, 0.0154, 0.0021, 0.0059, 0.0076};
+	double expimin[9] = {0.026, 0.0128, 0.0098, 0.0084, 0.0095, 0.0121, 0.0164, 0.0251, 0.0453};
+	double zpimin[8] = {0.014, 0.014, 0.0001, -0.0061, -0.0107, 0.0086, 0.0121, -0.0214};
+	double ezpimin[8] = {0.0083, 0.0096, 0.0113, 0.0132, 0.012, 0.0138, 0.0199, 0.0254};
+	double pTpimin[9] = {-0.0056, -0.0007, -0.011, 0.0142, 0.0034, 0.0136, 0.0368, 0.0143, 0.1183};
+	double epTpimin[9] = {0.0123, 0.0102, 0.0099, 0.0107, 0.0122, 0.0171, 0.0185, 0.0433};
+
+	double xKplus[9] = {};
+	double zKplus[8] = {};
+	double pTKplus[9] = {};
+
+	
+
     gStyle->SetOptLogx();
-//	TFile* out = new TFile("Asym.root", "RECREATE");
-       	TCanvas *c1 = new TCanvas("canv", "Asymmetry", 800, 800);
-/*  	TH2D *hist = new TH2D("h", "Asymmetry",5, 0.0, 0.4,5, -0.1, 0.3);
-	std::fstream f;
-	f.open("logpiminus");
-	while (!f.eof() ) {
-		f >> xb;
-		f >> col;
-		f >> error;
-		vxb.push_back(xb);
-		vcol.push_back(col);
-		verror.push_back(error);
+    TCanvas *c1 = new TCanvas("canv", "Asymmetry", 800, 800);
 
-		
-		cout << xb << " " << col << " " << error << endl;
-		//gr->AddPoint(xb, col);	
-		hist->Fill(xb, col);
-	}
-	c->Divide(2,2, 0.05, 0.05, 0);*/
+	// c->Divide(2,2, 0.05, 0.05, 0);
 
-	TGraphErrors* gr1 = new TGraphErrors("positron_collins_Kplus_27.5_1", "%lg %lg %lg");
-	gr1->SetTitle("K^{+} Collins asymmetry; x;A_{Col}");
-	gr1->GetYaxis()->SetTitleOffset(0.5);
-	gr1->SetMarkerStyle(21);
-	gr1->SetMarkerColor(4);
-	gr1->Draw("AP");
-    gr1->SetMinimum(-0.2);
-    gr1->SetMaximum(0.2);
-	c1->cd();
-	c1->Print("acol_Kplus.png");
-       	TCanvas *c2 = new TCanvas("canv", "Asymmetry", 800, 800);
+
+	TMultiGraph* mgpiplus = new TMultiGraph();
+	mgpiplus->SetTitle("#pi^{-} Collins asymmetry; x;A_{Col}");
+	mgpiplus->SetMinimum(-0.2);
+	mgpiplus->SetMaximum(0.2);
+
+	TGraphErrors* grpiplus = new TGraphErrors("Collins_211", "%lg %lg %lg");
+	grpiplus->GetYaxis()->SetTitleOffset(0.5);
+	grpiplus->SetMarkerStyle(21);
+	grpiplus->SetMarkerColor(4);
+
+
+	TGraphErrors* grhpiplus = new TGraphErrors();
+	grhpiplus->SetMinimum(-0.2);
+	grhpiplus->SetMaximum(0.2);
+    
+	TCanvas *c2 = new TCanvas("canv", "Asymmetry", 800, 800);
 	TGraphErrors* gr2 = new TGraphErrors("positron_collins_Kminus_27.5_1", "%lg %lg %lg");
 	gr2->SetTitle("K^{-} Collins asymmetry; x;Acol");
 	gr2->SetMarkerStyle(21);
