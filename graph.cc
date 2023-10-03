@@ -183,9 +183,38 @@ int graph () {
 	multi_canv.add_graph("Collins_-311", "PYTHIA8", kAzure-3, 59);
 	multi_canv.draw("K^{-}", 4, 1, "x", "A_{Col}");
 
-	multi_canv.add_graph(x, xpiplus, zero, expiplus, "COMPASS", kRed-3, 55);
-	multi_canv.add_graph("Collins_211", "PYTHIA8", kAzure-3, 59);
-	multi_canv.draw("#pi^{+}", 1, 1, "x", "A_{Col}");
+	multi_canv.add_graph(z, zpiplus, zero, ezpiplus, "COMPASS", kRed-3, 55);
+	multi_canv.add_graph("zCollins_211", "PYTHIA8", kAzure-3, 59);
+	multi_canv.draw("#pi^{+}", 1, 2, "z", "A_{Col}");
+
+	multi_canv.add_graph(z, zpimin, zero, ezpimin, "COMPASS", kRed-3, 55);
+	multi_canv.add_graph("zCollins_-211", "PYTHIA8", kAzure-3, 59);
+	multi_canv.draw("#pi^{-}", 2, 2, "z", "A_{Col}");
+
+	multi_canv.add_graph(z, zKplus, zero, ezKplus, "COMPASS", kRed-3, 55);
+	multi_canv.add_graph("zCollins_311", "PYTHIA8", kAzure-3, 59);
+	multi_canv.draw("K^{+}", 3, 2, "z", "A_{Col}");
+
+	multi_canv.add_graph(z, zKmin, zero, ezKmin, "COMPASS", kRed-3, 55);
+	multi_canv.add_graph("zCollins_-311", "PYTHIA8", kAzure-3, 59);
+	multi_canv.draw("K^{-}", 4, 2, "z", "A_{Col}");
+
+	multi_canv.add_graph(pT, pTpiplus, zero, epTpiplus, "COMPASS", kRed-3, 55);
+	multi_canv.add_graph("pTCollins_211", "PYTHIA8", kAzure-3, 59);
+	multi_canv.draw("#pi^{+}", 1, 3, "p_{T}", "A_{Col}");
+
+	multi_canv.add_graph(pT, pTpimin, zero, epTpimin, "COMPASS", kRed-3, 55);
+	multi_canv.add_graph("pTCollins_-211", "PYTHIA8", kAzure-3, 59);
+	multi_canv.draw("#pi^{-}", 2, 3, "p_{T}", "A_{Col}");
+
+	multi_canv.add_graph(pT, pTKplus, zero, epTKplus, "COMPASS", kRed-3, 55);
+	multi_canv.add_graph("pTCollins_311", "PYTHIA8", kAzure-3, 59);
+	multi_canv.draw("K^{+}", 3, 3, "p_{T}", "A_{Col}");
+
+	multi_canv.add_graph(pT, pTKmin, zero, epTKmin, "COMPASS", kRed-3, 55);
+	multi_canv.add_graph("pTCollins_-311", "PYTHIA8", kAzure-3, 59);
+	multi_canv.draw("K^{-}", 3, 3, "p_{T}", "A_{Col}");
+
 
 	multi_canv.FullDraw();
 	
