@@ -37,14 +37,14 @@ private:
 	std::unique_ptr<TCanvas> canv;
 public:
 
-	mgraph(double minx, double miny, double maxx, double maxy)
+	mgraph(double minx, double miny, double maxx, double maxy, std::string canv_name)
 	{
 		xmin = minx;
 		xmax = maxx;
 		ymax = maxy;
 		ymin = miny;
-		canv = std::unique_ptr<TCanvas>(new TCanvas("c", "a", 1680, 900));
-		Print(xmin, xmax, ymin, ymax);
+		canv = std::unique_ptr<TCanvas>(new TCanvas(canv_name.c_str(), "a", 1680, 1200));
+		//Print(xmin, xmax, ymin, ymax);
 
 		legend.SetLineColorAlpha(0., 0.);
 		legend.SetFillColorAlpha(0., 0.);
@@ -52,11 +52,11 @@ public:
 
 	void fast_divide(int ncolumns, int nrows)
 	{
-		canv->Divide(ncolumns, 1, 0., 0.);
+		canv->Divide( ncolumns, 1, 0., 0.);
 		for (int i = 1; i <= ncolumns; i++)
 		{
 			canv->cd(i);
-			gPad->Divide(1, nrows, 0., 0);
+			gPad->Divide(1,nrows, 0., 0);
 		}
 	}
 
@@ -88,6 +88,9 @@ public:
 	void draw(std::string title_text, int icanv, int igpad, std::string x_label, std::string y_label){
 		canv->cd(icanv);
 		gPad->cd(igpad);
+		if (icanv == 1){
+			gPad->SetLogx();
+		}
 	
 		TH1F* hist = gPad->DrawFrame(xmin, ymin, xmax, ymax);
 		hist->GetXaxis()->SetTitle(x_label.c_str());
@@ -116,9 +119,9 @@ public:
 		legend.Clear();
 	}
 
-	void FullDraw()
+	void FullDraw(std::string fig_name)
 	{
-		canv->SaveAs("gogo.png");
+		canv->SaveAs(fig_name.c_str());
 	}
 };
 
@@ -164,28 +167,28 @@ int graph () {
 	}
 
 
-    gStyle->SetOptLogx();
+    //gStyle->SetOptLogx();
 	gROOT->SetBatch(1);
-	mgraph multi_canv = mgraph(0.005, -0.32, 1, 0.31);
+	mgraph multi_canv = mgraph(0.005, -0.32, 1, 0.31, "allah");
 
-	multi_canv.fast_divide(4, 3);
+	multi_canv.fast_divide(3, 4);
 	multi_canv.add_graph(x, xpiplus, zero, expiplus, "COMPASS", kRed-3, 55);
 	multi_canv.add_graph("Collins_211", "PYTHIA8", kAzure-3, 59);
 	multi_canv.draw("#pi^{+}", 1, 1, "x", "A_{Col}");
 	multi_canv.add_graph(x, xpimin, zero, expimin, "COMPASS", kRed-3, 55);
 	multi_canv.add_graph("Collins_-211", "PYTHIA8", kAzure-3, 59);
-	multi_canv.draw("#pi^{-}", 2, 1, "x", "A_{Col}");
+	multi_canv.draw("#pi^{-}", 1, 2, "x", "A_{Col}");
 	multi_canv.add_graph(x, xKplus, zero, exKplus, "COMPASS", kRed-3, 55);
 	multi_canv.add_graph("Collins_311", "PYTHIA8", kAzure-3, 59);
-	multi_canv.draw("K^{+}", 3, 1, "x", "A_{Col}");
+	multi_canv.draw("K^{+}", 1, 3, "x", "A_{Col}");
 	
 	multi_canv.add_graph(x, xKmin, zero, exKmin, "COMPASS", kRed-3, 55);
 	multi_canv.add_graph("Collins_-311", "PYTHIA8", kAzure-3, 59);
-	multi_canv.draw("K^{-}", 4, 1, "x", "A_{Col}");
+	multi_canv.draw("K^{-}", 1, 4, "x", "A_{Col}");
 
 	multi_canv.add_graph(z, zpiplus, zero, ezpiplus, "COMPASS", kRed-3, 55);
 	multi_canv.add_graph("zCollins_211", "PYTHIA8", kAzure-3, 59);
-	multi_canv.draw("#pi^{+}", 1, 2, "z", "A_{Col}");
+	multi_canv.draw("#pi^{+}", 2, 1, "z", "A_{Col}");
 
 	multi_canv.add_graph(z, zpimin, zero, ezpimin, "COMPASS", kRed-3, 55);
 	multi_canv.add_graph("zCollins_-211", "PYTHIA8", kAzure-3, 59);
@@ -193,157 +196,52 @@ int graph () {
 
 	multi_canv.add_graph(z, zKplus, zero, ezKplus, "COMPASS", kRed-3, 55);
 	multi_canv.add_graph("zCollins_311", "PYTHIA8", kAzure-3, 59);
-	multi_canv.draw("K^{+}", 3, 2, "z", "A_{Col}");
+	multi_canv.draw("K^{+}", 2, 3, "z", "A_{Col}");
 
 	multi_canv.add_graph(z, zKmin, zero, ezKmin, "COMPASS", kRed-3, 55);
 	multi_canv.add_graph("zCollins_-311", "PYTHIA8", kAzure-3, 59);
-	multi_canv.draw("K^{-}", 4, 2, "z", "A_{Col}");
+	multi_canv.draw("K^{-}", 2, 4, "z", "A_{Col}");
 
 	multi_canv.add_graph(pT, pTpiplus, zero, epTpiplus, "COMPASS", kRed-3, 55);
-	multi_canv.add_graph("pTCollins_211", "PYTHIA8", kAzure-3, 59);
-	multi_canv.draw("#pi^{+}", 1, 3, "p_{T}", "A_{Col}");
+	multi_canv.add_graph("ptCollins_211", "PYTHIA8", kAzure-3, 59);
+	multi_canv.draw("#pi^{+}", 3, 1, "p_{T}", "A_{Col}");
 
 	multi_canv.add_graph(pT, pTpimin, zero, epTpimin, "COMPASS", kRed-3, 55);
-	multi_canv.add_graph("pTCollins_-211", "PYTHIA8", kAzure-3, 59);
-	multi_canv.draw("#pi^{-}", 2, 3, "p_{T}", "A_{Col}");
+	multi_canv.add_graph("ptCollins_-211", "PYTHIA8", kAzure-3, 59);
+	multi_canv.draw("#pi^{-}", 3, 2, "p_{T}", "A_{Col}");
 
 	multi_canv.add_graph(pT, pTKplus, zero, epTKplus, "COMPASS", kRed-3, 55);
-	multi_canv.add_graph("pTCollins_311", "PYTHIA8", kAzure-3, 59);
+	multi_canv.add_graph("ptCollins_311", "PYTHIA8", kAzure-3, 59);
 	multi_canv.draw("K^{+}", 3, 3, "p_{T}", "A_{Col}");
 
 	multi_canv.add_graph(pT, pTKmin, zero, epTKmin, "COMPASS", kRed-3, 55);
-	multi_canv.add_graph("pTCollins_-311", "PYTHIA8", kAzure-3, 59);
-	multi_canv.draw("K^{-}", 3, 3, "p_{T}", "A_{Col}");
+	multi_canv.add_graph("ptCollins_-311", "PYTHIA8", kAzure-3, 59);
+	multi_canv.draw("K^{-}", 3, 4, "p_{T}", "A_{Col}");
 
 
-	multi_canv.FullDraw();
+	multi_canv.FullDraw("COMPASS Collins.png");
 	
-	
+	mgraph sivers = mgraph(0.005, -0.21, 1, 0.21, "Zoroaster");
+	sivers.fast_divide(3, 4);
 
-    // TCanvas *c1 = new TCanvas("canv", "Asymmetry", 800, 800);
+	sivers.add_graph("Expsivers_211.log", "COMPASS", kRed-3, 55);
+	sivers.add_graph("Sivers_211", "PYTHIA8", kAzure-3, 59);
+	sivers.draw("#pi^{+}", 1, 1, "x", "A_{Siv}");
 
-	// // c->Divide(2,2, 0.05, 0.05, 0);
+	sivers.add_graph("Expsivers_-211.log", "COMPASS", kRed-3, 55);
+	sivers.add_graph("Sivers_-211", "PYTHIA8", kAzure-3, 59);
+	sivers.draw("#pi^{-}", 1, 2, "x", "A_{Siv}");
 
-    // //mgraph piplus = mgraph("");
+	sivers.add_graph("Expsivers_311.log", "COMPASS", kRed-3, 55);
+	sivers.add_graph("Sivers_311", "PYTHIA8", kAzure-3, 59);
+	sivers.draw("K^{+}", 1, 3, "x", "A_{Siv}");
 
-	// TMultiGraph* mgpiplus = new TMultiGraph();
-	// mgpiplus->SetTitle("#pi^{-} Collins asymmetry; x;A_{Col}");
-	// mgpiplus->SetMinimum(-0.2);
-	// mgpiplus->SetMaximum(0.2);
+	sivers.add_graph("Expsivers_-311.log", "COMPASS", kRed-3, 55);
+	sivers.add_graph("Sivers_-311", "PYTHIA8", kAzure-3, 59);
+	sivers.draw("K^{+}", 1, 3, "x", "A_{Siv}");
 
-	// TGraphErrors* grpiplus = new TGraphErrors("Collins_211", "%lg %lg %lg");
-	// grpiplus->GetYaxis()->SetTitleOffset(0.5);
-	// grpiplus->SetMarkerStyle(21);
-	// grpiplus->SetMarkerColor(4);
+	sivers.FullDraw("COMPASS Sivers.png");
 
-
-	// TGraphErrors* grhpiplus = new TGraphErrors(9, x, xpiplus, 0, expiplus);
-	// grhpiplus->SetMinimum(-0.2);
-	// grhpiplus->SetMaximum(0.2);
-
-    
-	// TCanvas *c2 = new TCanvas("canv", "Asymmetry", 800, 800);
-	// TGraphErrors* gr2 = new TGraphErrors("positron_collins_Kminus_27.5_1", "%lg %lg %lg");
-	// gr2->SetTitle("K^{-} Collins asymmetry; x;Acol");
-	// gr2->SetMarkerStyle(21);
-	// gr2->GetYaxis()->SetTitleOffset(0.5);
-	// gr2->SetMarkerColor(4);
-	// gr2->Draw("AP");
-    // gr2->SetMinimum(-0.2);
-    // gr2->SetMaximum(0.2);
-	// c2->cd();
-	// c2->Print("acol_Kminus.png");
-    //    	TCanvas *c3 = new TCanvas("canv", "Asymmetry", 800, 800);
-	// TGraphErrors* gr3 = new TGraphErrors("positron_collins_piplus_27.5_1", "%lg %lg %lg");
-	// gr3->SetTitle("#pi^{+} Collins asymmetry; x;Acol");
-	// gr3->SetMarkerStyle(21);
-	// gr3->GetYaxis()->SetTitleOffset(0.5);
-	// gr3->SetMarkerColor(3);
-
-    // gr3->SetMinimum(-0.2);
-    // gr3->SetMaximum(0.2);
-	// gr3->Draw("AP");
-	// c3->cd();
-	// c3->Print("acol_piplus.png");
-    //    	TCanvas *c4 = new TCanvas("canv", "Asymmetry", 800, 800);
-	// TGraphErrors* gr4 = new TGraphErrors("positron_collins_piminus_27.5_1", "%lg %lg %lg");
-	// gr4->SetTitle("#pi^{-} Collins asymmetry; x;Acol");
-	// gr4->GetYaxis()->SetTitleOffset(0.5);
-	// gr4->SetMarkerStyle(21);
-	// gr4->SetMarkerColor(3);
-
-    // gr4->SetMinimum(-0.2);
-    // gr4->SetMaximum(0.2);
-	// gr4->Draw("AP");
-	// c4->cd();
-	// c4->Print("acol_piminus.png");
-
-    
-    // TCanvas *c5 = new TCanvas("canv", "Asymmetry", 800, 800);
-	// TGraphErrors* grpi0 = new TGraphErrors("positron_collins_pi0_27.5_1", "%lg %lg %lg");
-	// grpi0->SetTitle("#pi^{0} Collins asymmetry; x;Acol");
-	// grpi0->SetMarkerStyle(21);
-	// grpi0->GetYaxis()->SetTitleOffset(0.5);
-	// grpi0->SetMarkerColor(4);
-	// grpi0->Draw("AP");
-    // grpi0->SetMinimum(-0.2);
-    // grpi0->SetMaximum(0.2);
-	// c5->cd();
-	// c5->Print("acol_pi0.png");
-    
-    // TCanvas *c6 = new TCanvas("canv", "Asymmetry", 800, 800);
-	// TGraphErrors* grrho0 = new TGraphErrors("positron_collins_rho0_27.5_1", "%lg %lg %lg");
-	// grrho0->SetTitle("#rho^{0} Collins asymmetry; x;Acol");
-	// grrho0->SetMarkerStyle(21);
-	// grrho0->GetYaxis()->SetTitleOffset(0.5);
-	// grrho0->SetMarkerColor(4);
-	// grrho0->Draw("AP");
-    // grrho0->SetMinimum(-0.2);
-    // grrho0->SetMaximum(0.2);
-	// c6->cd();
-	// c6->Print("acol_rho0.png");
-
-    // TCanvas *c7 = new TCanvas("canv", "Asymmetry", 800, 800);
-	// TGraphErrors* grphi = new TGraphErrors("positron_collins_phi_27.5_1", "%lg %lg %lg");
-	// grphi->SetTitle("#phi^{0} Collins asymmetry; x;Acol");
-	// grphi->SetMarkerStyle(21);
-	// grphi->GetYaxis()->SetTitleOffset(0.5);
-	// grphi->SetMarkerColor(4);
-	// grphi->Draw("AP");
-    // grphi->SetMinimum(-0.2);
-    // grphi->SetMaximum(0.2);
-	// c7->cd();
-	// c7->Print("acol_phi.png");
-
-
-    // TCanvas *c8 = new TCanvas("canv", "Asymmetry", 800, 800);
-	// TGraphErrors* grrhop = new TGraphErrors("positron_collins_rho+_27.5_1", "%lg %lg %lg");
-	// grrhop->SetTitle("#rho^{+} Collins asymmetry; x;Acol");
-	// grrhop->SetMarkerStyle(21);
-	// grrhop->GetYaxis()->SetTitleOffset(0.5);
-	// grrhop->SetMarkerColor(4);
-	// grrhop->Draw("AP");
-    // grrhop->SetMinimum(-0.1);
-    // grrhop->SetMaximum(0.2);
-	// c8->cd();
-	// c8->Print("acol_rho+.png");
-
-
-    // TCanvas *c9 = new TCanvas("canv", "Asymmetry", 800, 800);
-	// TGraphErrors* grrhom = new TGraphErrors("positron_collins_rho-_27.5_1", "%lg %lg %lg");
-	// grrhom->SetTitle("#rho^{-} Collins asymmetry; x;Acol");
-	// grrhom->SetMarkerStyle(21);
-	// grrhom->GetYaxis()->SetTitleOffset(0.5);
-	// grrhom->SetMarkerColor(4);
-	// grrhom->Draw("AP");
-    // grrhom->SetMinimum(-0.1);
-    // grrhom->SetMaximum(0.2);
-	// c9->cd();
-	// c9->Print("acol_rho-.png");
-    //	c->Update();
-    //	c->Print("asymmetry.png");
-//	hist->Write();
-//	out->Close();
-//	f.close();
+ 
 	return 0;
 }
