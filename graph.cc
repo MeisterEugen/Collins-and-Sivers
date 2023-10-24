@@ -109,7 +109,7 @@ public:
 		hist->GetXaxis()->SetLabelSize(0.05);
 		hist->GetYaxis()->SetLabelSize(0.05);
 
-		TLatex text = TLatex(0.01, 0.2, title_text.c_str());
+		TLatex text = TLatex(0.01, 0.15, title_text.c_str());
 		text.SetTextSize(0.1);
 
 		legend.DrawClone();
@@ -219,7 +219,7 @@ int graph () {
 	multi_canv.draw("K^{-}", 3, 4, "p_{T}", "A_{Col}");
 
 
-	multi_canv.FullDraw("COMPASS Collins.png");
+	multi_canv.FullDraw("COMPASS_Collins.png");
 	
 	mgraph sivers = mgraph(0.005, -0.21, 1, 0.21, "Zoroaster");
 	sivers.fast_divide(3, 4);
@@ -238,9 +238,96 @@ int graph () {
 
 	sivers.add_graph("Expsivers_-311.log", "COMPASS", kRed-3, 55);
 	sivers.add_graph("Sivers_-311", "PYTHIA8", kAzure-3, 59);
-	sivers.draw("K^{+}", 1, 3, "x", "A_{Siv}");
+	sivers.draw("K^{-}", 1, 4, "x", "A_{Siv}");
 
-	sivers.FullDraw("COMPASS Sivers.png");
+	sivers.add_graph("zExpsivers_211.log", "COMPASS", kRed-3, 55);
+	sivers.add_graph("zSivers_211", "PYTHIA8", kAzure-3, 59);
+	sivers.draw("#pi^{+}", 2, 1, "z", "A_{Siv}");
+
+	sivers.add_graph("zExpsivers_-211.log", "COMPASS", kRed-3, 55);
+	sivers.add_graph("zSivers_-211", "PYTHIA8", kAzure-3, 59);
+	sivers.draw("#pi^{-}", 2, 2, "z", "A_{Siv}");
+
+	sivers.add_graph("zExpsivers_311.log", "COMPASS", kRed-3, 55);
+	sivers.add_graph("zSivers_311", "PYTHIA8", kAzure-3, 59);
+	sivers.draw("K^{+}", 2, 3, "z", "A_{Siv}");	
+
+	sivers.add_graph("zExpsivers_-311.log", "COMPASS", kRed-3, 55);
+	sivers.add_graph("zSivers_-311", "PYTHIA8", kAzure-3, 59);
+	sivers.draw("K^{-}", 2, 4, "z", "A_{Siv}");	
+
+	sivers.add_graph("ptExpsivers_211.log", "COMPASS", kRed-3, 55);
+	sivers.add_graph("ptSivers_211", "PYTHIA8", kAzure-3, 59);
+	sivers.draw("#pi^{+}", 3, 1, "p_{T}", "A_{Siv}");
+
+	sivers.add_graph("ptExpsivers_-211.log", "COMPASS", kRed-3, 55);
+	sivers.add_graph("ptSivers_-211", "PYTHIA8", kAzure-3, 59);
+	sivers.draw("#pi^{-}", 3, 2, "p_{T}", "A_{Siv}");
+
+	sivers.add_graph("ptExpsivers_311.log", "COMPASS", kRed-3, 55);
+	sivers.add_graph("ptSivers_311", "PYTHIA8", kAzure-3, 59);
+	sivers.draw("K^{+}", 3, 3, "p_{T}", "A_{Siv}");	
+
+	sivers.add_graph("ptExpsivers_-311.log", "COMPASS", kRed-3, 55);
+	sivers.add_graph("ptSivers_-311", "PYTHIA8", kAzure-3, 59);
+	sivers.draw("K^{-}", 3, 4, "p_{T}", "A_{Siv}");	
+
+	sivers.FullDraw("COMPASS_Sivers.png");
+
+	// HERMES 
+
+	mgraph hermes_col = mgraph(0.005, -0.21, 1, 0.21, "christ");
+	hermes_col.fast_divide(3,4);
+
+	hermes_col.add_graph("exp_xCollins_211.log", "HERMES", kRed-3, 55);
+	hermes_col.add_graph("xCollins_211", "PYTHIA8", kAzure-3, 59);
+	hermes_col.draw("#pi^{+}", 1, 1, "x", "A_{Col}");
+
+	hermes_col.add_graph("exp_xCollins_-211.log", "HERMES", kRed-3, 55);
+	hermes_col.add_graph("xCollins_-211", "PYTHIA8", kAzure-3, 59);
+	hermes_col.draw("#pi^{-}", 1, 2, "x", "A_{Col}");
+
+	hermes_col.add_graph("exp_xCollins_311.log", "HERMES", kRed-3, 55);
+	hermes_col.add_graph("xCollins_311", "PYTHIA8", kAzure-3, 59);
+	hermes_col.draw("K^{+}", 1, 3, "x", "A_{Col}");
+
+	hermes_col.add_graph("exp_xCollins_-311.log", "HERMES", kRed-3, 55);
+	hermes_col.add_graph("xCollins_-311", "PYTHIA8", kAzure-3, 59);
+	hermes_col.draw("K^{-}", 1, 4, "x", "A_{Col}");
+
+	hermes_col.add_graph("exp_zCollins_211.log", "HERMES", kRed-3, 55);
+	hermes_col.add_graph("zCollins_211", "PYTHIA8", kAzure-3, 59);
+	hermes_col.draw("#pi^{+}", 2, 1, "z", "A_{Col}");
+
+	hermes_col.add_graph("exp_zCollins_-211.log", "HERMES", kRed-3, 55);
+	hermes_col.add_graph("zCollins_-211", "PYTHIA8", kAzure-3, 59);
+	hermes_col.draw("#pi^{-}", 2, 2, "z", "A_{Col}");
+
+	hermes_col.add_graph("exp_zCollins_311.log", "HERMES", kRed-3, 55);
+	hermes_col.add_graph("zCollins_311", "PYTHIA8", kAzure-3, 59);
+	hermes_col.draw("K^{+}", 2, 3, "z", "A_{Col}");
+
+	hermes_col.add_graph("exp_zCollins_-311.log", "HERMES", kRed-3, 55);
+	hermes_col.add_graph("zCollins_-311", "PYTHIA8", kAzure-3, 59);
+	hermes_col.draw("K^{-}", 2, 4, "z", "A_{Col}");
+
+	hermes_col.add_graph("exp_ptCollins_211.log", "HERMES", kRed-3, 55);
+	hermes_col.add_graph("ptCollins_211", "PYTHIA8", kAzure-3, 59);
+	hermes_col.draw("#pi^{+}", 3, 1, "p_{T}", "A_{Col}");
+
+	hermes_col.add_graph("exp_ptCollins_-211.log", "HERMES", kRed-3, 55);
+	hermes_col.add_graph("ptCollins_211", "PYTHIA8", kAzure-3, 59);
+	hermes_col.draw("#pi^{-}", 3, 2, "p_{T}", "A_{Col}");	
+
+	hermes_col.add_graph("exp_ptCollins_311.log", "HERMES", kRed-3, 55);
+	hermes_col.add_graph("ptCollins_311", "PYTHIA8", kAzure-3, 59);
+	hermes_col.draw("K^{+}", 3, 3, "p_{T}", "A_{Col}");
+
+	hermes_col.add_graph("exp_ptCollins_-311.log", "HERMES", kRed-3, 55);
+	hermes_col.add_graph("ptCollins_-311", "PYTHIA8", kAzure-3, 59);
+	hermes_col.draw("K^{-}", 3, 4, "p_{T}", "A_{Col}");
+
+
 
  
 	return 0;
