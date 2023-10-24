@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
   
   //double xexp[9] = {0.006452, 0.01054, 0.01628, 0.02533, 0.0398, 0.06279, 0.1008, 0.1608, 0.2847};
  // double xher[7] = {0.036, 0.056, 0.076, 0.098, 0.133, 0.186, 0.275}; 
-  double z[8] = {0.234, 0.303, 0.373, 0.447, 0.523, 0.593, 0.663};
+  double z[7] = {0.234, 0.303, 0.373, 0.447, 0.523, 0.593, 0.663};
   double Col[7] = {0.0};
   double Colerr[7] = {0.0};
   int nxb[7] = {0};
@@ -159,7 +159,7 @@ int main(int argc, char* argv[]) {
       // this cut is not applied.
       if ( idHad== pid && zh>0.2 && zh < 0.7 && sqrt(pT2)>0.1 && abs(statusHad)==83 ) {
         
-        if (x>=0.005 and x <= 0.04){
+        if (zh>0.2 and zh <= 0.26){
           Col[0] += 2.0*sin(phiHad+phiS-M_PI);
           Colerr[0] += pow(2.0*sin(phiHad+phiS-M_PI),2);
           nxb[0] += 1;
@@ -167,14 +167,14 @@ int main(int argc, char* argv[]) {
           STxb[0] += ST;
         }
 
-        if (x>0.04 and x <= 0.066){
+        if (zh>0.26 and zh <= 0.34){
           Col[1] += 2.0*sin(phiHad+phiS-M_PI);
           Colerr[1] += pow(2.0*sin(phiHad+phiS-M_PI),2);
           nxb[1] += 1;
           DNNxb[1] += 2.0*(1.0-dis.y)/(1.0+pow(1.0-dis.y,2));
           STxb[1] += ST;
         }
-        if (x>0.066 and x <= 0.086){
+        if (zh>0.34 and zh <= 0.4){
           Col[2] += 2.0*sin(phiHad+phiS-M_PI);
           Colerr[2] += pow(2.0*sin(phiHad+phiS-M_PI),2);
           nxb[2] += 1;
@@ -182,7 +182,7 @@ int main(int argc, char* argv[]) {
           STxb[2] += ST;
         }
 
-        if (x>0.086 and x <= 0.110){
+        if (zh > 0.4 and zh <= 0.49){
           Col[3] += 2.0*sin(phiHad+phiS-M_PI);
           Colerr[3] += pow(2.0*sin(phiHad+phiS-M_PI),2);
           nxb[3] += 1;
@@ -190,7 +190,7 @@ int main(int argc, char* argv[]) {
           STxb[3] += ST;
         }
 
-        if (x>0.110 and x <= 0.156){
+        if (zh > 0.49 and zh<= 0.56){
           Col[4] += 2.0*sin(phiHad+phiS-M_PI);
           Colerr[4] += pow(2.0*sin(phiHad+phiS-M_PI),2);
           nxb[4] += 1;
@@ -198,7 +198,7 @@ int main(int argc, char* argv[]) {
           STxb[4] += ST;
         }
 
-        if (x>0.156 and x <= 0.216){
+        if (zh>0.56 and zh <= 0.62){
           Col[5] += 2.0*sin(phiHad+phiS-M_PI);
           Colerr[5] += pow(2.0*sin(phiHad+phiS-M_PI),2);
           nxb[5] += 1;
@@ -206,7 +206,7 @@ int main(int argc, char* argv[]) {
           STxb[5] += ST;
         }
         
-        if (x>0.216 and x < 1){
+        if (zh>0.62 and zh < 0.7 ){
           Col[6] += 2.0*sin(phiHad+phiS-M_PI);
           Colerr[6] += pow(2.0*sin(phiHad+phiS-M_PI),2);
           nxb[6] += 1;
@@ -233,7 +233,7 @@ int main(int argc, char* argv[]) {
     STxb[j] /= nxb[j];
     //cout << Col[j] << endl;
        if (out.is_open()){
-           out << xher[j] << " " << Col[j]/(DNNxb[j]*STxb[j]) << " " <<sqrt((Colerr[j]-pow(Col[j],2))/nxb[j])/(DNNxb[j]*STxb[j]) << endl;
+           out << z[j] << " " << Col[j]/(DNNxb[j]*STxb[j]) << " " <<sqrt((Colerr[j]-pow(Col[j],2))/nxb[j])/(DNNxb[j]*STxb[j]) << endl;
        }
    }
 
