@@ -4,7 +4,7 @@ GFORTRAN=/usr/local/Cellar/gcc/10.2.0_4/lib/gcc/10
 PYTHIAXMLDIR=$(PYTHIADIR)/share/Pythia8/xmldoc
 
 CXX=g++
-CXXFLAGS=-g -O -std=c++11
+CXXFLAGS=-g -O2 -std=c++17
 INCLUDEDIR=$(PYTHIADIR)/include
 LIBDIR=$(PYTHIADIR)/lib
 FC=gfortran
@@ -18,24 +18,33 @@ collins: collins.cc StringSpinner.h Transversity.h VectorMesonDecays.h Primordia
 
 sivers: sivers.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
 	$(CXX) $(CXXFLAGS) -I$(INCLUDEDIR) -o $@ $< mc3P0.o def.o -L$(GFORTRAN) -lgfortran -L$(LIBDIR) -Wl,-rpath $(LIBDIR) -lpythia8 -ldl
-hermes: hermes.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
+hermes_collins: hermes_collins.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
 	$(CXX) $(CXXFLAGS) -I$(INCLUDEDIR) -o $@ $< mc3P0.o def.o -L$(GFORTRAN) -lgfortran -L$(LIBDIR) -Wl,-rpath $(LIBDIR) -lpythia8 -ldl
 
-z: z.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
+compass_zcollins: compass_zcollins.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
 	$(CXX) $(CXXFLAGS) -I$(INCLUDEDIR) -o $@ $< mc3P0.o def.o -L$(GFORTRAN) -lgfortran -L$(LIBDIR) -Wl,-rpath $(LIBDIR) -lpythia8 -ldl
 
-zsivers: zsivers.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
+compass_zsivers: compass_zsivers.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
 	$(CXX) $(CXXFLAGS) -I$(INCLUDEDIR) -o $@ $< mc3P0.o def.o -L$(GFORTRAN) -lgfortran -L$(LIBDIR) -Wl,-rpath $(LIBDIR) -lpythia8 -ldl
-pt: pt.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
-	$(CXX) $(CXXFLAGS) -I$(INCLUDEDIR) -o $@ $< mc3P0.o def.o -L$(GFORTRAN) -lgfortran -L$(LIBDIR) -Wl,-rpath $(LIBDIR) -lpythia8 -ldl
-
-zhermes: zhermes.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
+compass_ptcollins: compass_ptcollins.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
 	$(CXX) $(CXXFLAGS) -I$(INCLUDEDIR) -o $@ $< mc3P0.o def.o -L$(GFORTRAN) -lgfortran -L$(LIBDIR) -Wl,-rpath $(LIBDIR) -lpythia8 -ldl
 
-pthermes: pthermes.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
+hermes_zcollins: hermes_zcollins.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
 	$(CXX) $(CXXFLAGS) -I$(INCLUDEDIR) -o $@ $< mc3P0.o def.o -L$(GFORTRAN) -lgfortran -L$(LIBDIR) -Wl,-rpath $(LIBDIR) -lpythia8 -ldl
 
-ptsivers: ptsivers.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
+hermes_ptcollins: hermes_ptcollins.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
+	$(CXX) $(CXXFLAGS) -I$(INCLUDEDIR) -o $@ $< mc3P0.o def.o -L$(GFORTRAN) -lgfortran -L$(LIBDIR) -Wl,-rpath $(LIBDIR) -lpythia8 -ldl
+
+compass_ptsivers: compass_ptsivers.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
+	$(CXX) $(CXXFLAGS) -I$(INCLUDEDIR) -o $@ $< mc3P0.o def.o -L$(GFORTRAN) -lgfortran -L$(LIBDIR) -Wl,-rpath $(LIBDIR) -lpythia8 -ldl
+
+hermes_sivers: hermes_sivers.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
+	$(CXX) $(CXXFLAGS) -I$(INCLUDEDIR) -o $@ $< mc3P0.o def.o -L$(GFORTRAN) -lgfortran -L$(LIBDIR) -Wl,-rpath $(LIBDIR) -lpythia8 -ldl
+
+hermes_zsivers: hermes_zsivers.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
+	$(CXX) $(CXXFLAGS) -I$(INCLUDEDIR) -o $@ $< mc3P0.o def.o -L$(GFORTRAN) -lgfortran -L$(LIBDIR) -Wl,-rpath $(LIBDIR) -lpythia8 -ldl
+
+hermes_ptsivers: hermes_ptsivers.cc StringSpinner.h Transversity.h VectorMesonDecays.h PrimordialKT.h mc3P0.o def.o
 	$(CXX) $(CXXFLAGS) -I$(INCLUDEDIR) -o $@ $< mc3P0.o def.o -L$(GFORTRAN) -lgfortran -L$(LIBDIR) -Wl,-rpath $(LIBDIR) -lpythia8 -ldl
 def.o: definitions.f90 
 	$(FC) -c $< -o $@ 
