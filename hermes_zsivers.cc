@@ -159,49 +159,49 @@ int main(int argc, char* argv[]) {
       if ( idHad== pid && zh>0.2 && zh < 0.7 && sqrt(pT2)>0.1 && abs(statusHad)==83 ) {
         
         if (zh>=0.2 and zh <= 0.268){
-          Col[0] += 2.0*sin(phiHad+phiS);
-          Colerr[0] += pow(2.0*sin(phiHad+phiS),2);
+          Col[0] += 2.0*sin(phiHad-phiS);
+          Colerr[0] += pow(2.0*sin(phiHad-phiS),2);
           nxb[0] += 1;
           STxb[0] += ST;
         }
 
         if (zh>0.268 and zh <= 0.338){
-          Col[1] += 2.0*sin(phiHad+phiS);
-          Colerr[1] += pow(2.0*sin(phiHad+phiS),2);
+          Col[1] += 2.0*sin(phiHad-phiS);
+          Colerr[1] += pow(2.0*sin(phiHad-phiS),2);
           nxb[1] += 1;
           STxb[1] += ST;
         }
         if (zh>0.338 and zh <= 0.408){
-          Col[2] += 2.0*sin(phiHad+phiS);
-          Colerr[2] += pow(2.0*sin(phiHad+phiS),2);
+          Col[2] += 2.0*sin(phiHad-phiS);
+          Colerr[2] += pow(2.0*sin(phiHad-phiS),2);
           nxb[2] += 1;
           STxb[2] += ST;
         }
 
         if (zh>0.408 and zh <= 0.486){
-          Col[3] += 2.0*sin(phiHad+phiS);
-          Colerr[3] += pow(2.0*sin(phiHad+phiS),2);
+          Col[3] += 2.0*sin(phiHad-phiS);
+          Colerr[3] += pow(2.0*sin(phiHad-phiS),2);
           nxb[3] += 1;
           STxb[3] += ST;
         }
 
         if (zh>0.486 and zh <= 0.560){
-          Col[4] += 2.0*sin(phiHad+phiS);
-          Colerr[4] += pow(2.0*sin(phiHad+phiS),2);
+          Col[4] += 2.0*sin(phiHad-phiS);
+          Colerr[4] += pow(2.0*sin(phiHad-phiS),2);
           nxb[4] += 1;
           STxb[4] += ST;
         }
 
         if (zh > 0.560 and zh <= 0.626){
-          Col[5] += 2.0*sin(phiHad+phiS);
-          Colerr[5] += pow(2.0*sin(phiHad+phiS),2);
+          Col[5] += 2.0*sin(phiHad-phiS);
+          Colerr[5] += pow(2.0*sin(phiHad-phiS),2);
           nxb[5] += 1;
           STxb[5] += ST;
         }
         
         if (zh>0.626 and zh < 0.7){
-          Col[6] += 2.0*sin(phiHad+phiS);
-          Colerr[6] += pow(2.0*sin(phiHad+phiS),2);
+          Col[6] += 2.0*sin(phiHad-phiS);
+          Colerr[6] += pow(2.0*sin(phiHad-phiS),2);
           nxb[6] += 1;
           STxb[6] += ST;
         }

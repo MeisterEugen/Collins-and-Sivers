@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
   double Q2min	  = 1.0;
   int nEvent	  = (int) std::stod(argv[2]);
   int pid = std::stoi(argv[1]);
-  std::cout<<nEvent<<endl;
+  std::cout<<pid<<endl;
   // double x = 0.0;
 
   // Set up incoming beams, for frame with unequal beam energies.
@@ -157,52 +157,53 @@ int main(int argc, char* argv[]) {
       // The requirement statusHad=83 (primary hadrons) allows to obtain a large
       // test asymmetry with a small number of simulated events. In real analyses
       // this cut is not applied.
+
       if ( idHad== pid && zh>0.2 && zh < 0.7 && sqrt(pT2)>0.05 && abs(statusHad)==83 ) {
         
         if (pT2>=0.05 and pT2 <= 0.160){
-          Col[0] += 2.0*sin(phiHad+phiS);
-          Colerr[0] += pow(2.0*sin(phiHad+phiS),2);
+          Col[0] += 2.0*sin(phiHad-phiS);
+          Colerr[0] += pow(2.0*sin(phiHad-phiS),2);
           nxb[0] += 1;
           STxb[0] += ST;
         }
 
         if (pT2>0.160 and pT2 <= 0.261){
-          Col[1] += 2.0*sin(phiHad+phiS);
-          Colerr[1] += pow(2.0*sin(phiHad+phiS),2);
+          Col[1] += 2.0*sin(phiHad-phiS);
+          Colerr[1] += pow(2.0*sin(phiHad-phiS),2);
           nxb[1] += 1;
           STxb[1] += ST;
         }
         if (pT2>0.261 and pT2 <= 0.321){
-          Col[2] += 2.0*sin(phiHad+phiS);
-          Colerr[2] += pow(2.0*sin(phiHad+phiS),2);
+          Col[2] += 2.0*sin(phiHad-phiS);
+          Colerr[2] += pow(2.0*sin(phiHad-phiS),2);
           nxb[2] += 1;
           STxb[2] += ST;
         }
 
         if (pT2>0.321 and pT2 <= 0.421){
-          Col[3] += 2.0*sin(phiHad+phiS);
-          Colerr[3] += pow(2.0*sin(phiHad+phiS),2);
+          Col[3] += 2.0*sin(phiHad-phiS);
+          Colerr[3] += pow(2.0*sin(phiHad-phiS),2);
           nxb[3] += 1;
           STxb[3] += ST;
         }
 
         if (pT2>0.421 and pT2 <= 0.555){
-          Col[4] += 2.0*sin(phiHad+phiS);
-          Colerr[4] += pow(2.0*sin(phiHad+phiS),2);
+          Col[4] += 2.0*sin(phiHad-phiS);
+          Colerr[4] += pow(2.0*sin(phiHad-phiS),2);
           nxb[4] += 1;
           STxb[4] += ST;
         }
 
         if (pT2>0.555 and pT2 <= 0.783){
-          Col[5] += 2.0*sin(phiHad+phiS);
-          Colerr[5] += pow(2.0*sin(phiHad+phiS),2);
+          Col[5] += 2.0*sin(phiHad-phiS);
+          Colerr[5] += pow(2.0*sin(phiHad-phiS),2);
           nxb[5] += 1;
           STxb[5] += ST;
         }
         
         if (pT2>0.783 and pT2 < 2){
-          Col[6] += 2.0*sin(phiHad+phiS);
-          Colerr[6] += pow(2.0*sin(phiHad+phiS),2);
+          Col[6] += 2.0*sin(phiHad-phiS);
+          Colerr[6] += pow(2.0*sin(phiHad-phiS),2);
           nxb[6] += 1;
           STxb[6] += ST;
         }

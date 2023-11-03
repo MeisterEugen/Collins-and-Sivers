@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
 
   std::string file_name;
   
-  file_name.append("Collins_");
+  file_name.append("HERMES/xCollins_");
   file_name.append(argv[1]);
 
   std::ofstream out(file_name, std::ios::out);
@@ -20,8 +20,8 @@ int main(int argc, char* argv[]) {
   // Beam energies in GeV, minimal Q2, number of events to generate.
   ParticleData& pdt = pythia.particleData;
   double eNucleon  = pdt.m0(2212);
-  double pLepton	= 160;
-  double mLepton  = pdt.m0(13);
+  double pLepton	= 27.6;
+  double mLepton  = pdt.m0(11);
   double eLepton	  = sqrt(pow(pLepton,2) + pow(mLepton,2));
   double Q2min	  = 1.0;
   int nEvent	  = (int) std::stod(argv[2]);
@@ -36,14 +36,14 @@ int main(int argc, char* argv[]) {
   pythia.settings.parm("Beams:eA", eLepton);  // Muon energy.
   pythia.settings.parm("Beams:eB", eNucleon); // Proton at rest.
   
-  double xexp[9] = {0.006452, 0.01054, 0.01628, 0.02533, 0.0398, 0.06279, 0.1008, 0.1608, 0.2847};
-  //double xher[7] = {0.036, 0.056, 0.076, 0.098, 0.133, 0.186, 0.275}; 
+  //double xexp[9] = {0.006452, 0.01054, 0.01628, 0.02533, 0.0398, 0.06279, 0.1008, 0.1608, 0.2847};
+  double xher[7] = {0.036, 0.056, 0.076, 0.098, 0.133, 0.186, 0.275}; 
 
-  double Col[9] = {0.0};
-  double Colerr[9] = {0.0};
-  int nxb[9] = {0};
-  double DNNxb[9] = {0};
-  double STxb[9] = {0};
+  double Col[7] = {0.0};
+  double Colerr[7] = {0.0};
+  int nxb[7] = {0};
+  double DNNxb[7] = {0};
+  double STxb[7] = {0};
 
   // Interaction mechanism.
   pythia.readString("WeakBosonExchange:ff2ff(t:gmZ) = on");
@@ -122,8 +122,8 @@ int main(int argc, char* argv[]) {
     DISKinematics dis(event[1].p(), event[5].p(), event[2].p());
 
     // Phase space cuts according to the COMPASS analysis of Collins asymmetries.
-    if (dis.W2 < 25.0) continue;
-    if (dis.y < 0.1 || dis.y > 0.9) continue;
+    if (dis.W2 < 10.0) continue;
+    if (dis.y < 0.05 || dis.y > 0.95) continue;
 
     // Momenta of the exchanged photon and target nucleon in the GNS.
     Vec4 pPhoton  = dis.GNS * dis.q;
@@ -157,78 +157,63 @@ int main(int argc, char* argv[]) {
       // The requirement statusHad=83 (primary hadrons) allows to obtain a large
       // test asymmetry with a small number of simulated events. In real analyses
       // this cut is not applied.
-      if ( idHad== pid && zh>0.2 && sqrt(pT2)>0.1 && abs(statusHad)==83 ) {
+      if ( idHad== pid && zh>0.2 && zh < 0.7 && sqrt(pT2)>0.1 && abs(statusHad)==83 ) {
         
-        if (x>=0.003 and x <= 0.006){
-          Col[0] += 2.0*sin(phiHad+phiS-M_PI);
-          Colerr[0] += pow(2.0*sin(phiHad+phiS-M_PI),2);
+        if (x>=0.005 and x <= 0.04){
+          Col[0] += 2.0*sin(phiHad+phiS);
+          Colerr[0] += pow(2.0*sin(phiHad+phiS),2);
           nxb[0] += 1;
           DNNxb[0] += 2.0*(1.0-dis.y)/(1.0+pow(1.0-dis.y,2));
           STxb[0] += ST;
         }
 
-        if (x>0.008 and x <= 0.013){
-          Col[1] += 2.0*sin(phiHad+phiS-M_PI);
-          Colerr[1] += pow(2.0*sin(phiHad+phiS-M_PI),2);
+        if (x>0.04 and x <= 0.066){
+          Col[1] += 2.0*sin(phiHad+phiS);
+          Colerr[1] += pow(2.0*sin(phiHad+phiS),2);
           nxb[1] += 1;
           DNNxb[1] += 2.0*(1.0-dis.y)/(1.0+pow(1.0-dis.y,2));
           STxb[1] += ST;
         }
-        if (x>0.013 and x <= 0.02){
-          Col[2] += 2.0*sin(phiHad+phiS-M_PI);
-          Colerr[2] += pow(2.0*sin(phiHad+phiS-M_PI),2);
+        if (x>0.066 and x <= 0.086){
+          Col[2] += 2.0*sin(phiHad+phiS);
+          Colerr[2] += pow(2.0*sin(phiHad+phiS),2);
           nxb[2] += 1;
           DNNxb[2] += 2.0*(1.0-dis.y)/(1.0+pow(1.0-dis.y,2));
           STxb[2] += ST;
         }
 
-        if (x>0.02 and x <= 0.032){
-          Col[3] += 2.0*sin(phiHad+phiS-M_PI);
-          Colerr[3] += pow(2.0*sin(phiHad+phiS-M_PI),2);
+        if (x>0.086 and x <= 0.110){
+          Col[3] += 2.0*sin(phiHad+phiS);
+          Colerr[3] += pow(2.0*sin(phiHad+phiS),2);
           nxb[3] += 1;
           DNNxb[3] += 2.0*(1.0-dis.y)/(1.0+pow(1.0-dis.y,2));
           STxb[3] += ST;
         }
 
-        if (x>0.032 and x <= 0.05){
-          Col[4] += 2.0*sin(phiHad+phiS-M_PI);
-          Colerr[4] += pow(2.0*sin(phiHad+phiS-M_PI),2);
+        if (x>0.110 and x <= 0.156){
+          Col[4] += 2.0*sin(phiHad+phiS);
+          Colerr[4] += pow(2.0*sin(phiHad+phiS),2);
           nxb[4] += 1;
           DNNxb[4] += 2.0*(1.0-dis.y)/(1.0+pow(1.0-dis.y,2));
           STxb[4] += ST;
         }
 
-        if (x>0.05 and x <= 0.08){
-          Col[5] += 2.0*sin(phiHad+phiS-M_PI);
-          Colerr[5] += pow(2.0*sin(phiHad+phiS-M_PI),2);
+        if (x>0.156 and x <= 0.216){
+          Col[5] += 2.0*sin(phiHad+phiS);
+          Colerr[5] += pow(2.0*sin(phiHad+phiS),2);
           nxb[5] += 1;
           DNNxb[5] += 2.0*(1.0-dis.y)/(1.0+pow(1.0-dis.y,2));
           STxb[5] += ST;
         }
         
-        if (x>0.08 and x <= 0.13){
-          Col[6] += 2.0*sin(phiHad+phiS-M_PI);
-          Colerr[6] += pow(2.0*sin(phiHad+phiS-M_PI),2);
+        if (x>0.216 and x < 1){
+          Col[6] += 2.0*sin(phiHad+phiS);
+          Colerr[6] += pow(2.0*sin(phiHad+phiS),2);
           nxb[6] += 1;
           DNNxb[6] += 2.0*(1.0-dis.y)/(1.0+pow(1.0-dis.y,2));
           STxb[6] += ST;
         }
 
-        if (x>0.13 and x <= 0.21){
-          Col[7] += 2.0*sin(phiHad+phiS-M_PI);
-          Colerr[7] += pow(2.0*sin(phiHad+phiS-M_PI),2);
-          nxb[7] += 1;
-          DNNxb[7] += 2.0*(1.0-dis.y)/(1.0+pow(1.0-dis.y,2));
-          STxb[7] += ST;
-        }
-
-        if (x>0.21 and x <= 1){
-          Col[8] += 2.0*sin(phiHad+phiS-M_PI);
-          Colerr[8] += pow(2.0*sin(phiHad+phiS-M_PI),2);
-          nxb[8] += 1;
-          DNNxb[8] += 2.0*(1.0-dis.y)/(1.0+pow(1.0-dis.y,2));
-          STxb[8] += ST;
-        }
       /*  Acoll[0] += 2.0*sin(phiHad+phiS-M_PI);
         Acoll[1] += pow(2.0*sin(phiHad+phiS-M_PI),2);
         Npi += 1;
@@ -241,26 +226,19 @@ int main(int argc, char* argv[]) {
   } // End loop on events.
 
    // Calculate test Collins asymmetry for pi+.
-  for (int j = 0; j<9; j++){
+  for (int j = 0; j<7; j++){
     Col[j] /= nxb[j];
     Colerr[j] /= nxb[j];
     DNNxb[j] /= nxb[j];
     STxb[j] /= nxb[j];
     //cout << Col[j] << endl;
        if (out.is_open()){
-           out << xexp[j] << " " << Col[j]/(DNNxb[j]*STxb[j]) << " " <<sqrt((Colerr[j]-pow(Col[j],2))/nxb[j])/(DNNxb[j]*STxb[j]) << endl;
+           out << xher[j] << " " << Col[j]/(DNNxb[j]*STxb[j]) << " " <<sqrt((Colerr[j]-pow(Col[j],2))/nxb[j])/(DNNxb[j]*STxb[j]) << endl;
        }
    }
 
 
   // Calculate test Collins asymmetry for pi+ and print the output.
-  for(int i=0;i<2;i++) Acoll[i] /= Npi;
-  DNN /= Npi;
-  STav /= Npi;
-  cout << "The average Collins asymmetry for pi+ is: \n";
-  cout << Acoll[0]/(DNN*STav) << "+/-" 
-       << sqrt((Acoll[1]-pow(Acoll[0],2))/Npi)/(DNN*STav)
-       << endl;
   
   return 0;
 }
